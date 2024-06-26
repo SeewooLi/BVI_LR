@@ -30,7 +30,8 @@ get_completion <- function(prompt, model = "gpt-4o", temperature = 0){
     messages = messages,
     temperature = temperature
   )
-  message(paste("Used tokens:", res$usage$total_tokens))
+  message(paste("Used tokens:", res$usage$prompt_tokens, "+", res$usage$completion_tokens, "=",  res$usage$total_tokens))
+  message(paste("Price: $", res$usage$prompt_tokens/1000000*5+res$usage$prompt_tokens/1000000*15))
   return(res$choices$message.content)
 }
 ```
