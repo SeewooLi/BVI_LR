@@ -1,0 +1,139 @@
+---
+title: "BVI literature review"
+author: "Seewoo Li"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(openai)
+library(bibliometrix)
+library(tidyverse)
+library(glue)
+library(xlsx)
+library(jsonlite)
+
+get_completion <- function(prompt, model = "gpt-4o", temperature = 0){
+  messages <- list(
+    list(
+      "role" = "system",
+      "content" = "You are an expert in conducting literature review."
+    ),
+    list(
+      "role" = "user",
+      "content" = prompt
+    )
+  )
+  res <- openai::create_chat_completion(
+    model = model,
+    messages = messages,
+    temperature = temperature
+  )
+  message(paste("Used tokens:", res$usage$total_tokens))
+  return(res$choices$message.content)
+}
+```
+
+
+# Ask GPT to Recommend Search Terms
+
+```{r search-term, include=FALSE}
+recommend_search_terms <- function(purpose){
+  prom <- glue(
+"
+The purpose of the current literature review is to {purpose}. Generate search words to retrieve bibliometric data from websites such as Web of Science.
+
+Specifications:
+  1. The search words should include all resources aligned with the purpose, while effectively excluding irrelevant resources.
+
+Provide the result in JSON format without delimiters, heading, and explanations.
+"
+  )
+
+  response <- get_completion(prom)
+  
+  return(jsonlite::fromJSON(response))
+}
+```
+
+```{r recmded-terms}
+purpose <- "understand the current status of accommodations, identify gaps, and highlight effective practices and policies for the students with blindness and visual impairments"
+
+recommend_search_terms(purpose)
+```
+
+
+# Import Data
+
+- The current example data are extracted from Web of Science (WOS).
+
+```{r data}
+# import data
+data <- xlsx::read.xlsx("savedrecs.xls", sheetIndex = 1)
+
+# filter columns
+data_reduced <- data %>% 
+    select(Authors, Author.Full.Names, Article.Title, Source.Title, Document.Type, Conference.Title, Conference.Date, Conference.Location, Author.Keywords, Abstract, Affiliations, Publisher, Publication.Date, Publication.Year, Volume, Issue, Start.Page, End.Page)
+```
+
+
+# Conduct Literature Review
+
+- GPT will do the job for us `r print("\U001F609");print("\U001F44D")`
+
+```{r lr-func, include=FALSE}
+literature_review <- function(r_questions, bib_data){
+  prom <- glue(
+"
+The purpose of the current literature review is to answer the 'Research Questions' below. Generate a structured summary using the 'Bibliographic Data' and by following the specifications below.
+
+SPECIFICATION:
+  1. Considering both 'Research Questions' and 'Bibliometric Data', determine the structure of summary that you think is most appropriate.
+    A. However, while flexibly determining the structure of summary, make sure to exclude introduction and conclusion, and to include reference.
+  2. Use APA style for citations (e.g., Author, Year).
+  3. Follow the markdown syntax.
+
+Research Questions:{r_questions}
+  
+Bibliographic Data:
+{example_data}
+
+Provide only the summary as an output.
+"
+  )
+
+  response <- get_completion(prom)  
+}
+
+```
+
+```{r lr}
+# research questions
+r_questions <- "
+  1. What are the major accommodations currently used for students with blindness and visual impairments (BVI) in classroom settings and large-scale assessments?
+  Levels of learning: K-12, Higher Education
+  Type (Purposes) of assessment: Larger-scale/Classroom; Performance/Aptitude
+  2. How are assistive technologies used in assessing students with BVI in different contexts?
+  3. How are modeling and scoring procedures adapted for students with BVI in different contexts?
+  4. What are the impacts of these accommodations on the academic performance and assessment experiences of students with BVI?
+  5. What gaps exist in the current literature regarding assessment accommodations for students with BVI?
+"
+
+# 15 example data
+example_data <- data_reduced[1:15,] %>% 
+  toJSON(pretty = TRUE)
+
+# result
+BVI_lr <- literature_review(
+  r_questions = r_questions,
+  bib_data = example_data
+)
+```
+
+# Printing Out
+
+```{r print, results='asis', echo=FALSE}
+knitr::asis_output(BVI_lr)
+```
+
