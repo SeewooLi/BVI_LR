@@ -2,7 +2,7 @@
 title: "BVI literature review"
 author: "Seewoo Li"
 date: "`r Sys.Date()`"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -80,10 +80,10 @@ data_reduced <- data %>%
 
 # Conduct Literature Review
 
-- GPT will do the job for us `r print("\U001F609");print("\U001F44D")`
 
 ```{r lr-func, include=FALSE}
-literature_review <- function(r_questions, bib_data){
+literature_review <- function(r_questions, bib_data, 
+                              structure = "'Present Situation', 'Challenges', and 'Prospects'"){
   prom <- glue(
 "
 The purpose of the current literature review is to answer the 'Research Questions' below. Generate a structured summary using the 'Bibliographic Data' and by following the specifications below.
@@ -91,8 +91,13 @@ The purpose of the current literature review is to answer the 'Research Question
 SPECIFICATION:
   1. Considering both 'Research Questions' and 'Bibliometric Data', determine the structure of summary that you think is most appropriate.
     A. However, while flexibly determining the structure of summary, make sure to exclude introduction and conclusion, and to include reference.
+    B. Use {structure} as the top-level structure.
   2. Use APA style for citations (e.g., Author, Year).
-  3. Follow the markdown syntax.
+  3. If there is no resource provided from 'Bibliometric Data' to be summarized under a particular heading, include the heading for the integrity of the structure and simply print the content as 'NA'.
+  4. NEVER make up the content to make a pausible result. The transparency and credibility are integral parts of the literature review.
+  5. If a statement needs to be double-checked by manually reading the full paper,for example due to a lack of clarity of the abstract, italicize the statement.
+  6. Do not use irrelevant resource from 'Bibliometric Data'; exclude it from the Reference as well.
+  7. Follow the markdown syntax in generating the final output.
 
 Research Questions:{r_questions}
   
@@ -103,7 +108,9 @@ Provide only the summary as an output.
 "
   )
 
-  response <- get_completion(prom)  
+  response <- get_completion(prom)
+  
+  return(response)
 }
 
 ```
@@ -112,16 +119,12 @@ Provide only the summary as an output.
 # research questions
 r_questions <- "
   1. What are the major accommodations currently used for students with blindness and visual impairments (BVI) in classroom settings and large-scale assessments?
-  Levels of learning: K-12, Higher Education
-  Type (Purposes) of assessment: Larger-scale/Classroom; Performance/Aptitude
-  2. How are assistive technologies used in assessing students with BVI in different contexts?
-  3. How are modeling and scoring procedures adapted for students with BVI in different contexts?
-  4. What are the impacts of these accommodations on the academic performance and assessment experiences of students with BVI?
-  5. What gaps exist in the current literature regarding assessment accommodations for students with BVI?
+    A. Levels of learning: K-12, Higher Education
+    B. Type (Purposes) of assessment: Larger-scale/Classroom; Performance/Aptitude
 "
 
 # 15 example data
-example_data <- data_reduced[1:15,] %>% 
+example_data <- data_reduced[1:10,] %>% 
   toJSON(pretty = TRUE)
 
 # result
@@ -132,6 +135,8 @@ BVI_lr <- literature_review(
 ```
 
 # Printing Out
+
+---
 
 ```{r print, results='asis', echo=FALSE}
 knitr::asis_output(BVI_lr)

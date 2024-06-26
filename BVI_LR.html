@@ -362,7 +362,7 @@ display: none;
 <pre class="r"><code>purpose &lt;- &quot;understand the current status of accommodations, identify gaps, and highlight effective practices and policies for the students with blindness and visual impairments&quot;
 
 recommend_search_terms(purpose)</code></pre>
-<pre><code>## Used tokens: 308</code></pre>
+<pre><code>## Used tokens: 309</code></pre>
 <pre><code>## $search_words
 ##  [1] &quot;accommodations for students with blindness&quot;            
 ##  [2] &quot;accommodations for students with visual impairments&quot;   
@@ -376,14 +376,14 @@ recommend_search_terms(purpose)</code></pre>
 ## [10] &quot;inclusive education for visually impaired students&quot;    
 ## [11] &quot;assistive technology for blind students&quot;               
 ## [12] &quot;assistive technology for visually impaired students&quot;   
-## [13] &quot;barriers in education for blind students&quot;              
-## [14] &quot;barriers in education for visually impaired students&quot;  
-## [15] &quot;teaching strategies for blind students&quot;                
-## [16] &quot;teaching strategies for visually impaired students&quot;    
-## [17] &quot;academic accommodations for blind students&quot;            
-## [18] &quot;academic accommodations for visually impaired students&quot;
-## [19] &quot;learning resources for blind students&quot;                 
-## [20] &quot;learning resources for visually impaired students&quot;</code></pre>
+## [13] &quot;barriers for students with blindness&quot;                  
+## [14] &quot;barriers for students with visual impairments&quot;         
+## [15] &quot;challenges for blind students in education&quot;            
+## [16] &quot;challenges for visually impaired students in education&quot;
+## [17] &quot;academic performance of blind students&quot;                
+## [18] &quot;academic performance of visually impaired students&quot;    
+## [19] &quot;teacher training for blind students&quot;                   
+## [20] &quot;teacher training for visually impaired students&quot;</code></pre>
 </div>
 <div id="import-data" class="section level1">
 <h1>Import Data</h1>
@@ -401,21 +401,17 @@ data_reduced &lt;- data %&gt;%
 <div id="conduct-literature-review" class="section level1">
 <h1>Conduct Literature Review</h1>
 <ul>
-<li>GPT will do the job for us</li>
+<li>GPT will do the job for us 👍</li>
 </ul>
 <pre class="r"><code># research questions
 r_questions &lt;- &quot;
   1. What are the major accommodations currently used for students with blindness and visual impairments (BVI) in classroom settings and large-scale assessments?
-  Levels of learning: K-12, Higher Education
-  Type (Purposes) of assessment: Larger-scale/Classroom; Performance/Aptitude
-  2. How are assistive technologies used in assessing students with BVI in different contexts?
-  3. How are modeling and scoring procedures adapted for students with BVI in different contexts?
-  4. What are the impacts of these accommodations on the academic performance and assessment experiences of students with BVI?
-  5. What gaps exist in the current literature regarding assessment accommodations for students with BVI?
+    A. Levels of learning: K-12, Higher Education
+    B. Type (Purposes) of assessment: Larger-scale/Classroom; Performance/Aptitude
 &quot;
 
 # 15 example data
-example_data &lt;- data_reduced[1:15,] %&gt;% 
+example_data &lt;- data_reduced[1:50,] %&gt;% 
   toJSON(pretty = TRUE)
 
 # result
@@ -423,133 +419,183 @@ BVI_lr &lt;- literature_review(
   r_questions = r_questions,
   bib_data = example_data
 )</code></pre>
-<pre><code>## Used tokens: 7982</code></pre>
+<pre><code>## Used tokens: 22839</code></pre>
 </div>
 <div id="printing-out" class="section level1">
 <h1>Printing Out</h1>
-<div id="major-accommodations-for-students-with-blindness-and-visual-impairments-bvi" class="section level2">
+<hr />
+<div id="major-accommodations-for-students-with-blindness-and-visual-impairments-bvi-in-classroom-settings-and-large-scale-assessments" class="section level2">
 <h2>Major Accommodations for Students with Blindness and Visual
-Impairments (BVI)</h2>
-<div id="classroom-and-large-scale-assessments" class="section level3">
-<h3>Classroom and Large-Scale Assessments</h3>
+Impairments (BVI) in Classroom Settings and Large-Scale Assessments</h2>
+<div id="levels-of-learning-k-12" class="section level3">
+<h3>Levels of Learning: K-12</h3>
+<div id="classroom-accommodations" class="section level4">
+<h4>Classroom Accommodations</h4>
 <ul>
-<li><strong>Braille Literacy</strong>: Braille remains a fundamental
-tool for BVI students, with various studies emphasizing its importance
-in literacy and education (Iqbal et al., 2017; Gentle et al., 2012;
-Gadiraju et al., 2020). Tools like BrailleBlocks and Slate Master have
-been developed to aid in Braille learning (Gadiraju et al., 2020; Lee et
-al., 2017).</li>
-<li><strong>Assistive Technologies</strong>: Technologies such as
-Braille displays, text-to-speech synthesizers, and digital Braille
-translators are commonly used to support BVI students in both classroom
-and assessment settings (Hoskin et al., 2024; van Leendert et al., 2022;
-Damit et al., 2014).</li>
+<li><strong>Braille Learning Tools</strong>: Various tools have been
+developed to aid in Braille literacy for visually impaired students. For
+instance, the “Interactive Urdu Braille Learning System” (Iqbal et al.,
+2017) and “BrailleBlocks” (Gadiraju et al., 2020) are designed to help
+children learn Braille through interactive and tangible methods.</li>
+<li><strong>Assistive Technologies</strong>: The “Slate Master” (Lee et
+al., 2017) and “Dual Braille Code Translator” (Damit et al., 2014) are
+examples of assistive technologies that facilitate Braille learning and
+real-time interaction between visually impaired students and their
+sighted peers or teachers.</li>
+<li><strong>Digital Literacy Tools</strong>: The “Braille Corner Digital
+Learning” model (Suherman et al., 2022) integrates digital literacy
+resources to support visually impaired students in inclusive education
+settings.</li>
 </ul>
 </div>
-<div id="performance-and-aptitude-assessments" class="section level3">
-<h3>Performance and Aptitude Assessments</h3>
+<div id="large-scale-assessments" class="section level4">
+<h4>Large-Scale Assessments</h4>
 <ul>
 <li><strong>Unified English Braille (UEB)</strong>: The implementation
-of UEB in Australian schools has been positively received, indicating a
-standardized approach to Braille education (Gentle et al., 2012).</li>
-<li><strong>Interactive Learning Tools</strong>: Tools like the Urdu
-Braille Translator and BrailleBlocks facilitate interactive and
-collaborative learning, enhancing the educational experience for BVI
-students (Iqbal et al., 2017; Gadiraju et al., 2020).</li>
+of UEB in Australian schools (Gentle et al., 2012) and its examination
+in the UK (Cryer et al., 2013) highlight the standardization efforts to
+ensure consistency in Braille usage across different regions.</li>
+<li><strong>Braille Math Tools</strong>: The “Braille Math Extension to
+RoboBraille” (Cosma et al., 2016) provides a universal software solution
+for converting mathematical content into Braille, supporting visually
+impaired students in large-scale assessments.</li>
 </ul>
 </div>
 </div>
-<div id="use-of-assistive-technologies-in-assessing-students-with-bvi" class="section level2">
-<h2>Use of Assistive Technologies in Assessing Students with BVI</h2>
+<div id="levels-of-learning-higher-education" class="section level3">
+<h3>Levels of Learning: Higher Education</h3>
+<div id="classroom-accommodations-1" class="section level4">
+<h4>Classroom Accommodations</h4>
 <ul>
-<li><strong>Braille Displays and Text-to-Speech</strong>: These
-technologies are essential for reading and comprehending mathematical
-expressions and other complex content (van Leendert et al., 2022).</li>
-<li><strong>Electronic Prototypes</strong>: Devices like the electronic
-Braille teaching prototype provide real-time auditory and tactile
-feedback, making them effective for literacy education (Peñaloza-Mendoza
-et al., 2020).</li>
+<li><strong>Braille Translation and Learning Tools</strong>: Tools like
+the “Braille to Speech Prototype Application” (Ardiansah &amp; Okazaki,
+2021) and “Braille Learning Application for Visually Impaired Students
+in Bangladesh” (Nahar et al., 2015) are designed to assist higher
+education students in learning and using Braille effectively.</li>
+<li><strong>Professional Development for Teachers</strong>: A study on
+teachers’ skills and knowledge in mathematics education for Braille
+readers (van Leendert et al., 2022) emphasizes the need for professional
+development courses to enhance teachers’ ability to use assistive
+technologies in teaching visually impaired students.</li>
 </ul>
 </div>
-<div id="adaptation-of-modeling-and-scoring-procedures" class="section level2">
-<h2>Adaptation of Modeling and Scoring Procedures</h2>
+<div id="large-scale-assessments-1" class="section level4">
+<h4>Large-Scale Assessments</h4>
 <ul>
-<li><strong>Inclusive Education Tools</strong>: Tools like NAT Braille
-allow for immediate corrections and interactive learning, which are
-crucial for inclusive education (Mascret &amp; Mille, 2011).</li>
-<li><strong>Professional Development</strong>: Training programs for
-teachers to develop TPACK knowledge are necessary to effectively use
-assistive technologies in teaching BVI students (van Leendert et al.,
-2022).</li>
+<li><strong>Braille Literacy and Higher Education</strong>: Historical
+perspectives on Braille literacy in higher education (Eldridge, 1979)
+and the impact of Braille reading skills on employment and education
+(Ryles, 1996) underscore the importance of Braille literacy for academic
+and professional success.</li>
 </ul>
 </div>
-<div id="impacts-of-accommodations-on-academic-performance-and-assessment-experiences" class="section level2">
-<h2>Impacts of Accommodations on Academic Performance and Assessment
-Experiences</h2>
+</div>
+<div id="type-purposes-of-assessment-larger-scaleclassroom-performanceaptitude" class="section level3">
+<h3>Type (Purposes) of Assessment: Larger-scale/Classroom;
+Performance/Aptitude</h3>
+<div id="larger-scale-assessments" class="section level4">
+<h4>Larger-scale Assessments</h4>
 <ul>
-<li><strong>Positive Outcomes</strong>: Studies show that assistive
-technologies and interactive learning tools significantly improve the
-literacy and academic performance of BVI students (Hoskin et al., 2024;
-Gadiraju et al., 2020).</li>
-<li><strong>Challenges</strong>: Despite the benefits, there are still
-gaps in the quality of research and the effectiveness of current
-technologies (Hoskin et al., 2024).</li>
+<li><strong>Standardized Braille Codes</strong>: The adoption of
+standardized Braille codes like UEB (Gentle et al., 2012; Cryer et al.,
+2013) ensures that visually impaired students can participate in
+large-scale assessments with consistent and recognizable Braille
+formats.</li>
+<li><strong>Assistive Technology Integration</strong>: Tools like the
+“Braille Math Extension to RoboBraille” (Cosma et al., 2016) and
+“Optical Braille Recognition Platform for Sinhala” (De Silva &amp;
+Vasanthapriyan, 2018) facilitate the inclusion of visually impaired
+students in standardized testing environments.</li>
 </ul>
 </div>
-<div id="gaps-in-current-literature" class="section level2">
-<h2>Gaps in Current Literature</h2>
+<div id="classroom-assessments" class="section level4">
+<h4>Classroom Assessments</h4>
 <ul>
-<li><strong>Quality of Research</strong>: There is a need for higher
-quality studies to evaluate the effectiveness of assistive technologies
-in Braille literacy education (Hoskin et al., 2024).</li>
-<li><strong>Standards for Technology Evaluation</strong>: Developing
-standards for evaluating assistive technologies is crucial to ensure
-their effectiveness and usability (Hoskin et al., 2024).</li>
-<li><strong>Teacher Training</strong>: More comprehensive training
-programs are needed to equip teachers with the necessary skills to use
-assistive technologies effectively (van Leendert et al., 2022).</li>
+<li><strong>Interactive Learning Tools</strong>: The use of interactive
+tools such as “BrailleBlocks” (Gadiraju et al., 2020) and “Slate Master”
+(Lee et al., 2017) in classroom settings helps visually impaired
+students engage with the curriculum and perform well in classroom
+assessments.</li>
+<li><strong>Parental Involvement</strong>: Studies like the “ABC Braille
+Study” (Kamei-Hannan &amp; Sacks, 2012) highlight the role of parents in
+supporting Braille literacy at home, which in turn impacts students’
+performance in classroom assessments.</li>
 </ul>
+</div>
+</div>
+<div id="performanceaptitude-assessments" class="section level3">
+<h3>Performance/Aptitude Assessments</h3>
+<ul>
+<li><strong>Braille Literacy and Employment</strong>: Research on the
+impact of Braille literacy on employment and income (Ryles, 1996)
+indicates that proficiency in Braille can significantly enhance the
+performance and aptitude of visually impaired individuals in
+professional settings.</li>
+<li><strong>Educational Tools and Strategies</strong>: The development
+of tools like the “Braille to Speech Prototype Application” (Ardiansah
+&amp; Okazaki, 2021) and the “Braille Learning Application for Visually
+Impaired Students in Bangladesh” (Nahar et al., 2015) aims to improve
+the aptitude and performance of visually impaired students by providing
+accessible and effective learning resources.</li>
+</ul>
+</div>
 </div>
 <div id="references" class="section level2">
 <h2>References</h2>
 <ul>
-<li>Iqbal, M. Z., Shahid, S., &amp; Naseem, M. (2017). Interactive Urdu
-Braille Learning System for Parents of Visually Impaired Students.
-<em>Proceedings of the 19th International ACM SIGACCESS Conference on
-Computers and Accessibility (ASSETS’17)</em>, 327-328.</li>
-<li>Gentle, F., Steer, M., &amp; Howse, J. (2012). New dots Downunder:
-The implementation of Unified English Braille (UEB) in Australian
-schools. <em>British Journal of Visual Impairment</em>, 30(3),
-197-200.</li>
-<li>Gadiraju, V., Muehlbradt, A., &amp; Kane, S. K. (2020).
-BrailleBlocks: Computational Braille Toys for Collaborative Learning.
-<em>Proceedings of the 2020 CHI Conference on Human Factors in Computing
-Systems (CHI’20)</em>.</li>
-<li>Hoskin, E. R., Coyne, M. K., White, M. J., Dobri, S. C. D., Davies,
-T. C., &amp; Pinder, S. D. (2024). Effectiveness of technology for
-braille literacy education for children: a systematic review.
-<em>Disability and Rehabilitation-Assistive Technology</em>, 19(1),
-120-130.</li>
-<li>Lee, G., Quero, L. C., Yang, J., Jung, H., &amp; Son, J. (2017).
-Slate Master: A Tangible Braille Slate Tutor for Mobile Devices.
-<em>Proceedings of the 19th International Conference on Human-Computer
-Interaction with Mobile Devices and Services (MobileHCI ’17)</em>.</li>
+<li>Cryer, H., Home, S., &amp; Wilkins, S. M. (2013). Unified English
+Braille in the United Kingdom: Part 2 - Examination by literary Braille
+users, Braille teachers, and transcribers. <em>British Journal of Visual
+Impairment, 31</em>(3), 238-247.</li>
+<li>Cosma, V. P., Stevns, T., &amp; Christensen, L. B. (2016). Braille
+Math Extension to RoboBraille A Universal Software Solution for
+Converting Math into Braille. <em>Computers Helping People with Special
+Needs, ICCHP 2016, PT I, 9758</em>, 15-18.</li>
 <li>Damit, D. S. A., Ani, A. I. C., Muhamad, A. I., Abbas, M. H., &amp;
 Ali, F. Z. (2014). Dual Braille Code Translator: Basic Education Tool
 for Visually Impaired Children. <em>2014 International Conference on
 Computer, Communications, and Control Technology (I4CT)</em>,
 399-402.</li>
-<li>Peñaloza-Mendoza, G. R., Sánchez-Rodríguez, A. A., Melgoza-Rivera,
-P. Y., &amp; Espinosa-Hurtado, S. (2020). Design of an electronic
-prototype to teach braille. <em>Health and Technology</em>, 10(2),
-411-416.</li>
-<li>Mascret, B., &amp; Mille, A. (2011). Supporting the learning process
-- more than a Braille transcription. <em>Everyday Technology for
-Independence and Care</em>, 640-647.</li>
+<li>De Silva, D. S. M. K., &amp; Vasanthapriyan, S. (2018). Optical
+Braille Recognition Platform for Sinhala. <em>2018 18th International
+Conference on Advances in ICT for Emerging Regions (ICTER) Conference
+Proceedings</em>, 7-12.</li>
+<li>Eldridge, C. (1979). Braille Literacy and Higher-Education.
+<em>Education of the Visually Handicapped, 11</em>(1), 8-12.</li>
+<li>Gadiraju, V., Muehlbradt, A., &amp; Kane, S. K. (2020).
+BrailleBlocks: Computational Braille Toys for Collaborative Learning.
+<em>Proceedings of the 2020 CHI Conference on Human Factors in Computing
+Systems (CHI’20)</em>.</li>
+<li>Gentle, F., Steer, M., &amp; Howse, J. (2012). New dots Downunder:
+The implementation of Unified English Braille (UEB) in Australian
+schools. <em>British Journal of Visual Impairment, 30</em>(3),
+197-200.</li>
+<li>Iqbal, M. Z., Shahid, S., &amp; Naseem, M. (2017). Interactive Urdu
+Braille Learning System for Parents of Visually Impaired Students.
+<em>Proceedings of the 19th International ACM SIGACCESS Conference on
+Computers and Accessibility (ASSETS’17)</em>, 327-328.</li>
+<li>Kamei-Hannan, C., &amp; Sacks, S. Z. (2012). Parents’ Perspectives
+on Braille Literacy: Results from the ABC Braille Study. <em>Journal of
+Visual Impairment &amp; Blindness, 106</em>(4), 212-223.</li>
+<li>Lee, G., Quero, L. C., Yang, J., Jung, H., &amp; Son, J. (2017).
+Slate Master: A Tangible Braille Slate Tutor for Mobile Devices.
+<em>Proceedings of the 19th International Conference on Human-Computer
+Interaction with Mobile Devices and Services (MobileHCI ’17)</em>.</li>
+<li>Nahar, L., Jaafar, A., Ahamed, E., &amp; Kaish, A. B. M. A. (2015).
+Design of a Braille Learning Application for Visually Impaired Students
+in Bangladesh. <em>Assistive Technology, 27</em>(3), 172-182.</li>
+<li>Ryles, R. (1996). The impact of Braille reading skills on
+employment, income, education, and reading habits. <em>Journal of Visual
+Impairment &amp; Blindness, 90</em>(3), 219-226.</li>
+<li>Suherman, Y., Juhanaini, J., Maryanti, R., &amp; Rochyadi, E.
+(2022). Innovation of Braille Corner Digital Learning Based on Learning
+for the Students with Visual Impairment in Inclusion Settings.
+<em>Journal of Engineering Science and Technology, 17</em>(6),
+4253-4265.</li>
 <li>van Leendert, A., Doorman, M., Drijvers, P., Pel, J., &amp; van der
 Steen, J. (2022). Teachers’ Skills and Knowledge in Mathematics
-Education for Braille Readers. <em>Technology Knowledge and
-Learning</em>, 27(4), 1171-1192.</li>
+Education for Braille Readers. <em>Technology Knowledge and Learning,
+27</em>(4), 1171-1192.</li>
 </ul>
 </div>
 </div>
