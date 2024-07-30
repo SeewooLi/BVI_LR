@@ -32,7 +32,8 @@ source("automated_literature_review.R")
 
 ```{r data}
 # import data
-data <- xlsx::read.xlsx("savedrecs.xls", sheetIndex = 1)
+data <- xlsx::read.xlsx("savedrecs.xls", sheetIndex = 1) %>% 
+  filter(!(is.na(Abstract) | (Abstract == "")))
 
 # filter columns
 data_reduced <- data %>% 
@@ -51,7 +52,7 @@ What are the major accommodations currently used for students with blindness and
 "
 
 # 15 example data
-example_data <- data_reduced[1:50,] %>% 
+example_data <- data_reduced[1:200,] %>% 
   toJSON(pretty = TRUE)
 
 # result
