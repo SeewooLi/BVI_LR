@@ -11,15 +11,16 @@ library(bibliometrix)
 library(tidyverse)
 library(xlsx)
 library(jsonlite)
+library(glue)
 
 source("automated_literature_review.R")
 ```
 
 
-# Ask GPT to Recommend Search Terms
+<!-- # Ask GPT to Recommend Search Terms -->
 
 
-```{r recmded-terms}
+```{r recmded-terms, include=FALSE}
 # purpose <- "understand the current status of accommodations, identify gaps, and highlight effective practices and policies for the students with blindness and visual impairments"
 
 # recommend_search_terms(purpose)
@@ -38,6 +39,7 @@ data <- xlsx::read.xlsx("savedrecs.xls", sheetIndex = 1) %>%
 # filter columns
 data_reduced <- data %>% 
     select(Authors, Author.Full.Names, Article.Title, Source.Title, Document.Type, Conference.Title, Conference.Date, Conference.Location, Author.Keywords, Abstract, Affiliations, Publisher, Publication.Date, Publication.Year, Volume, Issue, Start.Page, End.Page)
+data_reduced <- data_reduced[1:234,]
 ```
 
 
@@ -48,26 +50,62 @@ data_reduced <- data %>%
 ```{r lr}
 # research questions
 r_questions <- "
-What are the major accommodations currently used for students with blindness and visual impairments (BVI)?
+1. What are the major accommodations currently used for students with BVI in classroom settings and large-scale assessments?
+  a. Levels of learning: K-12, Higher Education
+  b. Type (Purposes) of assessment: Larger-scale/Classroom; Performance/Aptitude
+  c. Accommodations for testing for students with visual impairment
+    i. What kind: past and now (classroom, standardized tests, large-scale tests)
+    ii. Context of being used (Assessment context & Teaching and learning context)
+    iii. Students’ reactions to the accommodations?
+    iv. Impacts of accommodations and Remediations?
+  d. how K-12 students with visual impairment get schooling (or learn in schools) in the United States)
+2. How are assistive technologies used in assessing students with BVI in different contexts?
+3. How are modeling and scoring procedures adapted for students with BVI in different contexts?
+4. What are the impacts of these accommodations on the academic performance and assessment experiences of students with BVI?
+5. What gaps exist in the current literature regarding assessment accommodations for students with BVI?
+  a. Equivalence of braille version and regular version?
 "
-
-# 15 example data
-example_data <- data_reduced[1:200,] %>% 
-  toJSON(pretty = TRUE)
-
-# result
-BVI_lr <- literature_review(
-  r_questions = r_questions,
-  bib_data = example_data,
-  structure = NULL
-)
 ```
+
+```{r implementation, include=TRUE}
+chunk_size <- 50
+n_chunks <- nrow(data_reduced)%/%50
+remainder <- nrow(data_reduced)%%50
+
+BVI_lr <- list()
+
+for(i in 0:n_chunks){
+  if(i!=n_chunks){
+    from <- i*chunk_size+1
+    to <- (i+1)*chunk_size  
+  } else {
+    from <- i*chunk_size+1
+    to <- i*chunk_size+remainder
+  }
+  # example data
+  example_data <- data_reduced[from:to,] %>% 
+    toJSON(pretty = TRUE)
+  
+  # result
+  BVI_lr[[i+1]] <- literature_review(
+    r_questions = r_questions,
+    bib_data = example_data,
+    structure = NULL
+  )
+}
+```
+
+```{r merge}
+merged <- merge_results(BVI_lr)
+```
+
+
 
 # Printing Out
 
 ---
 
 ```{r print, results='asis', echo=FALSE}
-knitr::asis_output(BVI_lr)
+knitr::asis_output(merged)
 ```
 
