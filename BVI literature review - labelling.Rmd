@@ -1,0 +1,112 @@
+---
+title: "BVI literature review - labelling"
+author: "Seewoo Li"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(xlsx)
+library(jsonlite)
+library(glue)
+
+source("automated_literature_review.R")
+```
+
+# Data
+
+```{r data, echo=FALSE}
+data <- read.csv("BVI_literature_review_table.csv")
+```
+
+# 1. [Yes or No] Is the paper about blindness and visually impaired students (BVI)?
+
+```{r 1, echo=FALSE}
+data$Answer.1 %>% 
+  table()
+```
+
+# 2. [Accommodation or not] Does this paper describe accommodation for students with BVI?
+
+```{r 2, echo=FALSE}
+data$Answer.2 %>% 
+  table()
+```
+
+
+
+# 3. [Description of the Tech] What is the accommodation/technology about?
+
+```{r 3, echo=FALSE}
+data$Answer.3 %>% 
+  knitr::kable(format = "latex")
+```
+
+
+```{r 3-2, echo=FALSE}
+labelel_res <- read.csv("BVI_tools_summarized.csv")
+
+labelel_res[-(1:2)] %>% head()
+```
+
+## Summary of Answer3
+
+```{r 3-3, echo=FALSE}
+colSums(labelel_res[-(1:2)])
+```
+
+# 4. [learning vs assessment and classroom vs large scale] Where is this accommodation used?
+
+```{r 4, echo=FALSE}
+data$Answer.4 %>% 
+  table() %>% 
+  as.matrix()
+```
+
+
+
+# 5. Which grades or levels of education (e.g., elementary, middle school, high school, college, professional, post-graduate)?
+
+```{r 5, echo=FALSE}
+data$Answer.5 %>% 
+  table() %>% 
+  as.matrix()
+```
+
+
+
+# 6. What’s the sample size of the participants in the accomodation?
+
+```{r 6, echo=FALSE}
+data$Answer.6 %>% 
+  table() %>% 
+  as.matrix()
+```
+
+# 7. What country and/or state is the assessment used in?
+
+```{r 7, echo=FALSE}
+data$Answer.7 %>% 
+  table() %>% 
+  as.matrix()
+```
+
+
+# 8. In which subject or area is this accommodation applied to?
+
+```{r 8, echo=FALSE}
+data$Answer.8 %>% 
+  table() %>% 
+  as.matrix()
+```
+
+
+# 9. Is the accommodation actually being used? By how many people?
+
+```{r 9, echo=FALSE}
+data$Answer.9 %>% 
+  table() %>% 
+  as.matrix()
+```
